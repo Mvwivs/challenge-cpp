@@ -80,7 +80,7 @@ void OrderBook::cancel_order(OrderId order_id) {
     level.total_volume -= order.volume;
     level.order_queue.erase(std::find(level.order_queue.begin(), level.order_queue.end(), order_id));
     if (level.total_volume == 0) {
-        side.erase(order.price);
+        side.erase(order.price); // cleanup empty levels
     }
     orders_.erase(it);
 }
@@ -93,19 +93,20 @@ void OrderBook::place_order(Order order) {
             *(opposite_side.begin()) : *(--opposite_side.end());
         if (((best_price < order.price) && (order.side == Side::Sell))
             || ((best_price > order.price) && (order.side == Side::Buy))) {
-            break;
+            break; // ob is not crossing
         }
 
+        // match, other side has orders at this or better price
         while ((best.total_volume != 0) && (order.volume != 0)) {
             OrderId matching_id = best.order_queue.front();
             Order& matching_order = orders_[matching_id];
-            if (matching_order.volume <= order.volume) {
+            if (matching_order.volume <= order.volume) { // full execution
                 order.volume -= matching_order.volume;
                 best.total_volume -= matching_order.volume;
                 best.order_queue.pop_front();
                 orders_.erase(matching_id);
             }
-            else {
+            else { // partial execution
                 matching_order.volume -= order.volume;
                 best.total_volume -= order.volume;
                 order.volume = 0;
@@ -113,7 +114,7 @@ void OrderBook::place_order(Order order) {
         }
         // TODO: create trade event
 
-        if (best.total_volume == 0) {
+        if (best.total_volume == 0) { // cleanup empty levels
             if (order.side == Side::Buy) {
                 opposite_side.erase(opposite_side.begin());
             }
