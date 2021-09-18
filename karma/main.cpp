@@ -88,16 +88,16 @@ void test_task_example() {
 }
 
 int main() {
-	test_task_example();
-	test_empty();
-	test_all_not_important();
-	test_all_important();
-	test_one_not_important();
-	test_one_important();
-	test_two_different();
-	test_small_important_cnt();
+    test_task_example();
+    test_empty();
+    test_all_not_important();
+    test_all_important();
+    test_one_not_important();
+    test_one_important();
+    test_two_different();
+    test_small_important_cnt();
 
     std::cout << "Passed all tests" << std::endl;
 
-	return 0;
+    return 0;
 }

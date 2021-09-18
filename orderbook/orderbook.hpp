@@ -40,30 +40,30 @@ using SnapshotL3 = std::vector<Order>;
 // Stores and matches orders
 class OrderBook {
 public:
-	OrderBook() = default;
-	~OrderBook() = default;
+    OrderBook() = default;
+    ~OrderBook() = default;
 
     // places, modifies (if exists) or cancels order (if volume = 0)
-	void update_order(const Order& order);
+    void update_order(const Order& order);
 
     // get price of top bid or ask, optionally can skip specified volume
-	Price get_top(Side side, Volume skip_volume = 0) const;
+    Price get_top(Side side, Volume skip_volume = 0) const;
 
     // load orderbook from orders snapshot
-	void update_orderbook(const SnapshotL3& snapshot);
+    void update_orderbook(const SnapshotL3& snapshot);
 
     // get order volumes aggregated by price
-	SnapshotL2 get_snapshot() const;
+    SnapshotL2 get_snapshot() const;
 
 private:
     // modify existing order
-	void modify_order(const Order& order);
+    void modify_order(const Order& order);
 
     // cancel previosly placed order
-	void cancel_order(OrderId order_id);
+    void cancel_order(OrderId order_id);
 
     // place new order
-	void place_order(Order order);
+    void place_order(Order order);
 
 private:
     // one price level in order book
