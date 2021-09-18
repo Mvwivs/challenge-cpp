@@ -3,7 +3,6 @@
 
 #include "karma.hpp"
 
-
 void test_empty() {
     std::vector<std::pair<int, bool>> contests = {};
     assert(maxKarma(0, contests) == 0);
@@ -97,6 +96,8 @@ int main() {
 	test_one_important();
 	test_two_different();
 	test_small_important_cnt();
+
+    std::cout << "Passed all tests" << std::endl;
 
 	return 0;
 }

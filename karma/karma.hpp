@@ -12,7 +12,7 @@ int maxKarma(int k, std::vector<std::pair<int, bool>> contests) {
     if (contests.size() == 0) {
 	    return 0;
     }
-	assert(k >= 0 && k <= contests.size());
+	assert(k >= 0 && k <= static_cast<int>(contests.size()));
 
     std::size_t important_count = std::count_if(contests.begin(), contests.end(), 
         [] (const auto& v) { return v.second; });
@@ -21,7 +21,7 @@ int maxKarma(int k, std::vector<std::pair<int, bool>> contests) {
         return std::accumulate(contests.begin(), contests.end(), 0, 
             [] (const auto& a, const auto& v) { return v.second ? (a - v.first) : (a + v.first); });
     }
-    else if (important_count <= k) { // all events can be lost
+    else if (static_cast<int>(important_count) <= k) { // all events can be lost
 	    return std::accumulate(contests.begin(), contests.end(), 0, 
             [] (const auto& a, const auto& v) { return a + v.first; });
     }
